@@ -147,38 +147,55 @@ class GFG
             Console.WriteLine("0. Back to main menu\n");
         }
 
-        public static List<Phone> SortArray(List<Phone> array, int leftIndex, int rightIndex)
+        private static void Quick_Sort(List<Phone> arr, int left, int right)
         {
-            var i = leftIndex;
-            var j = rightIndex;
-            var pivot = array[leftIndex];
-            while (i <= j)
+            if (left < right)
             {
-                while (array[i].phoneId < pivot.phoneId)
-                {
-                    i++;
-                }
+                int pivot = Partition(arr, left, right);
 
-                while (array[j].phoneId > pivot.phoneId)
+                if (pivot > 1)
                 {
-                    j--;
+                    Quick_Sort(arr, left, pivot - 1);
                 }
-                if (i <= j)
+                if (pivot + 1 < right)
                 {
-                    int temp = array[i].phoneId;
-                    array[i].phoneId = array[j].phoneId;
-                    array[j].phoneId = temp;
-                    i++;
-                    j--;
+                    Quick_Sort(arr, pivot + 1, right);
                 }
             }
 
-            if (leftIndex < j)
-                SortArray(array, leftIndex, j);
-            if (i < rightIndex)
-                SortArray(array, i, rightIndex);
-            return array;
         }
+
+        private static int Partition(List<Phone> arr, int left, int right)
+        {
+            int pivot = arr[left].phoneId;
+            while (true)
+            {
+
+                while (arr[left].phoneId < pivot)
+                {
+                    left++;
+                }
+
+                while (arr[right].phoneId > pivot)
+                {
+                    right--;
+                }
+
+                if (left < right)
+                {
+                    if (arr[left] == arr[right]) return right;
+
+                    int temp = arr[left].phoneId;
+                    arr[left].phoneId = arr[right].phoneId;
+                    arr[right].phoneId = temp;
+                }
+                else
+                {
+                    return right;
+                }
+            }
+        }
+
         public static void Main(String[] args)
         {
        
@@ -243,7 +260,13 @@ class GFG
                         {
                             case 1:
                                 int arrLength1 = list.Count;
-                                SortArray(list,0,arrLength1 - 1);
+                                Quick_Sort(list,0,arrLength1 - 1);
+
+                                foreach (Phone item in list)
+                                {
+                                    Console.Write(" " + item.phoneId);
+                                    Console.Write(" " + item.phoneNumber);
+                                }
                                 break;
                         } 
                         break;
