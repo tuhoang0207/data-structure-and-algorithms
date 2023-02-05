@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Admin\\Desktop\\data structures and algorithms\\assignment\\assignment\\assignment.csproj",
+      "projectUniqueName": "C:\\Users\\Admin\\Desktop\\data-structure-and-algorithms\\assignment\\assignment\\assignment.csproj",
       "projectName": "assignment",
-      "projectPath": "C:\\Users\\Admin\\Desktop\\data structures and algorithms\\assignment\\assignment\\assignment.csproj",
+      "projectPath": "C:\\Users\\Admin\\Desktop\\data-structure-and-algorithms\\assignment\\assignment\\assignment.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Admin\\Desktop\\data structures and algorithms\\assignment\\assignment\\obj\\",
+      "outputPath": "C:\\Users\\Admin\\Desktop\\data-structure-and-algorithms\\assignment\\assignment\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",

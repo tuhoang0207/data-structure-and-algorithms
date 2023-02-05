@@ -46,7 +46,7 @@ class GFG
             {
                 Console.Write((count+1) + ". phone id " + tnode.data.phoneId + " ");
                 Console.Write("\n phone number " + tnode.data.phoneNumber + " ");
-                Console.Write("\n price " + tnode.data.price + " ");
+                Console.Write("\n price " + tnode.data.price + " \n");
                 tnode = tnode.next;
                 count++;
             }
@@ -55,6 +55,75 @@ class GFG
         }
         // Driver code
 
+        static int binarySearch(List<Phone> arr, int low, int high, int value)
+        {
+            if (high >= low)
+            {
+                //find the middle of array
+                int mid = low + (high - low) / 2;
+
+                // If the element is present at the 
+                // middle itself 
+                if (arr[mid].phoneId == value)
+                {
+                    return mid;
+                }
+                    
+
+                // If element is smaller than mid, then 
+                // it can only be present in left subarray 
+                if (arr[mid].phoneId > value)
+                {
+                    return binarySearch(arr, low, mid - 1, value);
+                }
+
+                // Else the element can only be present 
+                // in right subarray 
+                return binarySearch(arr, mid + 1, high, value);
+            }
+
+            // We reach here when element is not present 
+            // in array 
+            return -1;
+        }
+
+        public static void updatePhone()
+        {
+            Console.WriteLine("enter phone id you want to update ");
+            int id = Convert.ToInt32(Console.ReadLine());
+            foreach(Phone p in list)
+            {
+                if(p.phoneId == id)
+                {
+                    Console.WriteLine("enter new phone number ");
+                    p.phoneNumber = Console.ReadLine();
+
+                    Console.WriteLine("enter new phone number price");
+                    p.price = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("update successfully");
+                }
+            }
+        }
+
+
+        public static void deletePhone() {
+            Console.WriteLine("enter phone id you want to delete ");
+            int id = Convert.ToInt32(Console.ReadLine());
+
+            foreach (Phone p in list)
+            {
+                if(list.Count == 0)
+                {
+                    Console.WriteLine("dont have any element in list");
+                    return;
+                }
+                if (p.phoneId == id)
+                {
+                    list.Remove(p);
+                    Console.WriteLine("update successfully");
+                }
+            }
+        }
         public static void mainMenu()
         {
             Console.WriteLine("\n----------- Mobile Phone Shop ---------\n");
@@ -76,6 +145,39 @@ class GFG
             Console.WriteLine("1. Display all mobile phones\n");
             Console.WriteLine("2. Display top 5 highest price mobile phones\n");
             Console.WriteLine("0. Back to main menu\n");
+        }
+
+        public static List<Phone> SortArray(List<Phone> array, int leftIndex, int rightIndex)
+        {
+            var i = leftIndex;
+            var j = rightIndex;
+            var pivot = array[leftIndex];
+            while (i <= j)
+            {
+                while (array[i].phoneId < pivot.phoneId)
+                {
+                    i++;
+                }
+
+                while (array[j].phoneId > pivot.phoneId)
+                {
+                    j--;
+                }
+                if (i <= j)
+                {
+                    int temp = array[i].phoneId;
+                    array[i].phoneId = array[j].phoneId;
+                    array[j].phoneId = temp;
+                    i++;
+                    j--;
+                }
+            }
+
+            if (leftIndex < j)
+                SortArray(array, leftIndex, j);
+            if (i < rightIndex)
+                SortArray(array, i, rightIndex);
+            return array;
         }
         public static void Main(String[] args)
         {
@@ -107,30 +209,43 @@ class GFG
                         printList();
                         break;
                     case 2:
-                        Console.Write("enter value you want to find ");
-                        //key = Convert.ToInt32(Console.ReadLine());
-                        //if (ifNodeExists(root, key))
-                        //{
-                        //    Console.WriteLine("YES");
-                        //}
-                        //else
-                        //{
-                        //    Console.WriteLine("NO");
-                        //}
+                        int arrLength = list.Count;
+                        Console.Write("enter phone id you want to find ");
+                        int value = Convert.ToInt32(Console.ReadLine());
+
+                        int result = binarySearch(list, 0, arrLength-1,value);
+
+                        if (result == -1)
+                        {
+                            Console.WriteLine("Element not present");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Element found at index " + result);
+                        }
                         break;
                     case 3:
-
-                        //treeins(arr);
-                        //inorder(root);
+                        updatePhone();
+                        printList();
                         break;
                     case 4:
-                        //foreach (Phone s in arr)
-                        //{
-                        //    Console.WriteLine("đang trong for");
-                        //    Console.WriteLine(s.rollnumber);
-                        //    Console.WriteLine(s.phonenumber);
-                        //    Console.WriteLine(s.studentname);
-                        //}
+                        deletePhone();
+                        printList();
+                        break;
+                    case 5:
+                        reportMenu();
+                        
+                        int optionReport;
+                        Console.WriteLine("enter your option ");
+                        optionReport = Convert.ToInt32(Console.ReadLine());
+                        
+                        switch(optionReport)
+                        {
+                            case 1:
+                                int arrLength1 = list.Count;
+                                SortArray(list,0,arrLength1 - 1);
+                                break;
+                        } 
                         break;
                     default:
                         System.Environment.Exit(0);
