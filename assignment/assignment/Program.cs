@@ -185,14 +185,95 @@ class GFG
                 {
                     if (arr[left] == arr[right]) return right;
 
-                    int temp = arr[left].phoneId;
-                    arr[left].phoneId = arr[right].phoneId;
-                    arr[right].phoneId = temp;
+                    Phone temp = arr[left];
+                    arr[left] = arr[right];
+                    arr[right] = temp;
                 }
                 else
                 {
                     return right;
                 }
+            }
+        }
+
+        //merge sort
+        public static void merge(List<Phone> arr, int l, int m, int r)
+        {
+            // Find sizes of two
+            // subarrays to be merged
+            int n1 = m - l + 1;
+            int n2 = r - m;
+
+            // Create temp arrays
+            int[] left = new int[n1];
+            int[] right = new int[n2];
+            int i, j;
+
+            // Copy data to temp arrays
+            for (i = 0; i < n1; ++i)
+            {
+                left[i] = arr[l + i].price;
+            }
+                
+            for (j = 0; j < n2; ++j)
+            {
+               right[j] = arr[m + 1 + j].price;
+            }
+             
+
+            i = 0;
+            j = 0;
+
+
+            int k = l;
+            while (i < n1 && j < n2)
+            {
+                if (left[i] <= right[j])
+                {
+                    arr[k].price = left[i];
+                    i++;
+                }
+                else
+                {
+                    arr[k].price = right[j];
+                    j++;
+                }
+                k++;
+            }
+
+            // Copy remaining elements
+            // of L[] if any
+            while (i < n1)
+            {
+                arr[k].price = left[i];
+                i++;
+                k++;
+            }
+
+            // Copy remaining elements
+            // of R[] if any
+            while (j < n2)
+            {
+                arr[k].price = right[j];
+                j++;
+                k++;
+            }
+        }
+
+     
+        public static void sort(List<Phone> arr, int l, int r)
+        {
+            if (l < r)
+            {
+                // Find the middle
+                int m = l + (r - l) / 2;
+
+                // Sort first and
+                sort(arr, l, m);
+                sort(arr, m + 1, r);
+
+                // Merge the sorted halves
+                merge(arr, l, m, r);
             }
         }
 
@@ -255,20 +336,32 @@ class GFG
                         int optionReport;
                         Console.WriteLine("enter your option ");
                         optionReport = Convert.ToInt32(Console.ReadLine());
-                        
+                        int arrLength1 = list.Count;
                         switch(optionReport)
                         {
                             case 1:
-                                int arrLength1 = list.Count;
+                                
                                 Quick_Sort(list,0,arrLength1 - 1);
 
                                 foreach (Phone item in list)
                                 {
-                                    Console.Write(" " + item.phoneId);
-                                    Console.Write(" " + item.phoneNumber);
+                                    Console.Write(" phone id " + item.phoneId);
+                                    Console.Write(" phone number " + item.phoneNumber);
+                                    Console.Write(" phone price  " + item.price);
+                                    Console.Write("                               \n");
                                 }
                                 break;
-                        } 
+                            case 2:
+                                sort(list,0,arrLength1 - 1);
+                                foreach (Phone item in list)
+                                {
+                                    Console.Write(" phone id " + item.phoneId);
+                                    Console.Write(" phone number " + item.phoneNumber);
+                                    Console.Write(" phone price  " + item.price);
+                                    Console.Write("                               \n");
+                                }
+                            break;
+                        }
                         break;
                     default:
                         System.Environment.Exit(0);
