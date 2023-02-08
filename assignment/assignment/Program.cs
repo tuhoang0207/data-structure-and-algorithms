@@ -1,6 +1,8 @@
 ﻿// C# program to insert element in binary tree
 using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
+
 class GFG
 {
     class Phone
@@ -8,12 +10,12 @@ class GFG
         int phoneId;
         string phoneNumber;
         int price;
-        
+
 
         /* A binary tree node has key, pointer to
         left child and a pointer to right child */
         /* Linked list Node*/
-        
+
         public class Node
         {
             public Phone data;
@@ -24,34 +26,42 @@ class GFG
         static Node head = null;
         static List<Phone> list = new List<Phone>();
 
-        /*function to insert element in binary tree */
+   
         public static void insert(Phone new_data)
         {
-            
+
             Node new_node = new Node(new_data);
 
-            /* 3. Make next of new Node as head */
+            /* 3. đặt node tiếp theo = head */
             new_node.next = head;
 
-            /* 4. Move the head to point to new Node */
+            /* 4. thêm giá trị mới vào đầu */
             head = new_node;
             list.Add(new_data);
         }
 
         public static void printList()
         {
-            Node tnode = head;
-            int count = 0;
-            while (tnode != null)
+            //Node tnode = head;
+            //int count = 0;
+            //while (tnode != null)
+            //{
+            //    Console.Write(" phone id " + tnode.data.phoneId);
+            //    Console.Write(" phone number " + tnode.data.phoneNumber);
+            //    Console.Write(" phone price  " + tnode.data.price);
+            //    Console.Write("                               \n");
+            //    tnode = tnode.next;
+            //    count++;
+            //}
+            foreach (Phone p in list)
             {
-                Console.Write((count+1) + ". phone id " + tnode.data.phoneId + " ");
-                Console.Write("\n phone number " + tnode.data.phoneNumber + " ");
-                Console.Write("\n price " + tnode.data.price + " \n");
-                tnode = tnode.next;
-                count++;
+                Console.Write(" phone id " + p.phoneId);
+                Console.Write(" phone number " + p.phoneNumber);
+                Console.Write(" phone price  " + p.price);
+                Console.Write("                               \n");
             }
 
-      
+
         }
         // Driver code
 
@@ -59,31 +69,26 @@ class GFG
         {
             if (high >= low)
             {
-                //find the middle of array
+                // chia nửa 
                 int mid = low + (high - low) / 2;
 
-                // If the element is present at the 
-                // middle itself 
+                // nếu cái id chính giữa bằng value cần tìm thì return mid luôn
                 if (arr[mid].phoneId == value)
                 {
                     return mid;
                 }
-                    
 
-                // If element is smaller than mid, then 
-                // it can only be present in left subarray 
+                // nếu value nhỏ hơn thì nó sẽ tìm kiếm phía bên trái mid
                 if (arr[mid].phoneId > value)
                 {
                     return binarySearch(arr, low, mid - 1, value);
                 }
 
-                // Else the element can only be present 
-                // in right subarray 
+
                 return binarySearch(arr, mid + 1, high, value);
             }
 
-            // We reach here when element is not present 
-            // in array 
+            
             return -1;
         }
 
@@ -91,9 +96,9 @@ class GFG
         {
             Console.WriteLine("enter phone id you want to update ");
             int id = Convert.ToInt32(Console.ReadLine());
-            foreach(Phone p in list)
+            foreach (Phone p in list)
             {
-                if(p.phoneId == id)
+                if (p.phoneId == id)
                 {
                     Console.WriteLine("enter new phone number ");
                     p.phoneNumber = Console.ReadLine();
@@ -106,13 +111,15 @@ class GFG
         }
 
 
-        public static void deletePhone() {
+
+        public static void deletePhone()
+        {
             Console.WriteLine("enter phone id you want to delete ");
             int id = Convert.ToInt32(Console.ReadLine());
 
-            foreach (Phone p in list)
+            foreach (Phone p in list.ToList())
             {
-                if(list.Count == 0)
+                if (list.Count == 0)
                 {
                     Console.WriteLine("dont have any element in list");
                     return;
@@ -120,9 +127,11 @@ class GFG
                 if (p.phoneId == id)
                 {
                     list.Remove(p);
-                    Console.WriteLine("update successfully");
+                    Console.WriteLine("delete successfully");
                 }
             }
+
+
         }
         public static void mainMenu()
         {
@@ -147,6 +156,7 @@ class GFG
             Console.WriteLine("0. Back to main menu\n");
         }
 
+
         private static void Quick_Sort(List<Phone> arr, int left, int right)
         {
             if (left < right)
@@ -166,13 +176,13 @@ class GFG
         }
 
         private static int Partition(List<Phone> arr, int left, int right)
-        {
-            int pivot = arr[left].phoneId;
+        { 
+            int pivot = arr[left].phoneId; //left = 0
             while (true)
             {
 
                 while (arr[left].phoneId < pivot)
-                {
+                { // sang phần tử tiếp theo
                     left++;
                 }
 
@@ -183,8 +193,11 @@ class GFG
 
                 if (left < right)
                 {
-                    if (arr[left] == arr[right]) return right;
-
+                    if (arr[left] == arr[right])
+                    {
+                        return right;
+                    }
+                    // đổi phần tử
                     Phone temp = arr[left];
                     arr[left] = arr[right];
                     arr[right] = temp;
@@ -205,21 +218,21 @@ class GFG
             int n2 = r - m;
 
             // Create temp arrays
-            int[] left = new int[n1];
-            int[] right = new int[n2];
+            Phone[] left = new Phone[n1];
+            Phone[] right = new Phone[n2];
             int i, j;
 
             // Copy data to temp arrays
             for (i = 0; i < n1; ++i)
             {
-                left[i] = arr[l + i].price;
+                left[i] = arr[l + i];
             }
-                
+
             for (j = 0; j < n2; ++j)
             {
-               right[j] = arr[m + 1 + j].price;
+                right[j] = arr[m + 1 + j];
             }
-             
+
 
             i = 0;
             j = 0;
@@ -228,14 +241,14 @@ class GFG
             int k = l;
             while (i < n1 && j < n2)
             {
-                if (left[i] <= right[j])
+                if (left[i].price <= right[j].price)
                 {
-                    arr[k].price = left[i];
+                    arr[k] = left[i];
                     i++;
                 }
                 else
                 {
-                    arr[k].price = right[j];
+                    arr[k] = right[j];
                     j++;
                 }
                 k++;
@@ -245,7 +258,7 @@ class GFG
             // of L[] if any
             while (i < n1)
             {
-                arr[k].price = left[i];
+                arr[k] = left[i];
                 i++;
                 k++;
             }
@@ -254,13 +267,13 @@ class GFG
             // of R[] if any
             while (j < n2)
             {
-                arr[k].price = right[j];
+                arr[k] = right[j];
                 j++;
                 k++;
             }
         }
 
-     
+
         public static void sort(List<Phone> arr, int l, int r)
         {
             if (l < r)
@@ -268,7 +281,7 @@ class GFG
                 // Find the middle
                 int m = l + (r - l) / 2;
 
-                // Sort first and
+
                 sort(arr, l, m);
                 sort(arr, m + 1, r);
 
@@ -279,8 +292,8 @@ class GFG
 
         public static void Main(String[] args)
         {
-       
-      
+
+
             int option;
             List<Phone> arr = new List<Phone>();
             do
@@ -311,7 +324,7 @@ class GFG
                         Console.Write("enter phone id you want to find ");
                         int value = Convert.ToInt32(Console.ReadLine());
 
-                        int result = binarySearch(list, 0, arrLength-1,value);
+                        int result = binarySearch(list, 0, arrLength - 1, value);
 
                         if (result == -1)
                         {
@@ -319,7 +332,7 @@ class GFG
                         }
                         else
                         {
-                            Console.WriteLine("Element found at index " + result);
+                            Console.WriteLine("Element found");
                         }
                         break;
                     case 3:
@@ -332,16 +345,16 @@ class GFG
                         break;
                     case 5:
                         reportMenu();
-                        
+
                         int optionReport;
                         Console.WriteLine("enter your option ");
                         optionReport = Convert.ToInt32(Console.ReadLine());
                         int arrLength1 = list.Count;
-                        switch(optionReport)
+                        switch (optionReport)
                         {
                             case 1:
-                                
-                                Quick_Sort(list,0,arrLength1 - 1);
+
+                                Quick_Sort(list, 0, arrLength1 - 1);
 
                                 foreach (Phone item in list)
                                 {
@@ -352,7 +365,7 @@ class GFG
                                 }
                                 break;
                             case 2:
-                                sort(list,0,arrLength1 - 1);
+                                sort(list, 0, arrLength1 - 1);
                                 foreach (Phone item in list)
                                 {
                                     Console.Write(" phone id " + item.phoneId);
@@ -360,7 +373,7 @@ class GFG
                                     Console.Write(" phone price  " + item.price);
                                     Console.Write("                               \n");
                                 }
-                            break;
+                                break;
                         }
                         break;
                     default:
